@@ -41,3 +41,23 @@ these are the functions that i should understand more
 - sigemptyset
 - sigaddset
 - sigaction
+
+__________________--
+TODO: 
+
+	-> use the sigaction struct, 
+		this fields
+			+ sa_flags needs to take siginfo! but look up why? 
+			+ sa_sigaction 
+			+ sa_mask which can be manipulated using setemptyset and sigaddset
+
+make sure to test one more thing! 
+make a program that sends a random signal to the server while it's handing signals from 
+	the client
+
+
+setemptyset first 
+then sa flags to siginfo
+then the function
+
+pointer function (int, )
