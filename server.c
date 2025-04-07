@@ -4,6 +4,7 @@
 
 #include <stdio.h>
 #include <unistd.h>
+#include <signal.h>
 
 
 void ft_putchar(char c)
@@ -32,14 +33,34 @@ void	ft_putnbr(int nbr)
 	}
 }
 
-// write a function that takes either sigusr1 or sigusr2 
-// and print either 0 or 1 based on which signal you received!
+void	sig_super_func(int n, siginfo_t *more, void *pure)
+{
+	// static var to keep track of how many bit written so far!
+	// one other variable to store the value so far for the character
+	static int i_bits = 0;
+	static char c = 0;
+	if (n == SIGUSR2)
+		c |= (1 << (i_bits));
+	i_bits++;
+	if (i_bits == 8)
+	{
+		write(1, &c, 1);
+		c = 0;
+		i_bits = 0;
+	}
+}
 
 int main(int argc, char **argv)
 {
 	int nbr = getpid();
 	ft_putnbr(nbr);
 	ft_putchar('\n');
+	struct sigaction sa;
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = SA_SIGINFO;
+	sa.sa_sigaction = sig_super_func;
+	sigaction(SIGUSR1, &sa, NULL);
+	sigaction(SIGUSR2, &sa, NULL);
 	while (1)
 		pause();
 	return (0);

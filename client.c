@@ -6,16 +6,16 @@
 void	pc(char c, pid_t nbr)
 {
 	int i;
-	unsigned char octet;
 
-	i = 8;
-	while (i--)
+	i = 0;
+	while (i < 8)
 	{
-		if (((octet >> i) & 1) == 1)
+		if (((c >> i) & 1) == 1)
 			kill(nbr, SIGUSR2);
 		else
 			kill(nbr, SIGUSR1);
-		usleep(42);
+		usleep(100);
+		i++;
 	}
 }
 

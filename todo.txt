@@ -35,9 +35,9 @@ what functions do i get so far?
 + sleep
 + write
 + getpid
++ signal 
 
 these are the functions that i should understand more
-- signal 
 - sigemptyset
 - sigaddset
 - sigaction
