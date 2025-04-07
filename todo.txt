@@ -1,20 +1,4 @@
-◦ write
-◦ ft_printf or any equivalent YOU coded
-◦ signal
-◦ sigemptyset
-◦ sigaddset
-◦ sigaction
-◦ kill
-◦ getpid
-◦ malloc
-◦ free
-◦ pause
-◦ sleep
-◦ usleep
-◦ exit
-
 ______
-
 + what is a process? 
 + what is a signal? 
 what's the difference between the two? relation? 
@@ -24,7 +8,6 @@ is there any other way they can communicate other than signals?
 how do i make two processes communicate using signals? 
 what kind of signals i can use to make that happen? 
 how can i use the allowed signals to make that happen? 
-
 _______
 signals (messages, interrupt, event)
 when a process recieves a signal, it will stop what it's doing and take an action!
@@ -36,3 +19,25 @@ in this particular project of minitalk, we're trying to use them signals
 ______
 processes and signals are the most important terms of this project!
 
+______
+
+
+how does the client program know if the pid provided is valid! 
+	-> how can i check that? 
+
+what functions do i get so far?
++ malloc
++ free
++ kill 
++ exit
++ pause 
++ usleep 
++ sleep
++ write
++ getpid
+
+these are the functions that i should understand more
+- signal 
+- sigemptyset
+- sigaddset
+- sigaction
