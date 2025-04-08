@@ -1,11 +1,10 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <signal.h>
-#include <stdio.h>
 
 void	pc(char c, pid_t nbr)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < 8)
@@ -19,11 +18,15 @@ void	pc(char c, pid_t nbr)
 	}
 }
 
-int ft_atoi(char *s)
+int	ft_atoi(char *s)
 {
-	int i = 0;
-	int sign = 1;
-	int re = 0;
+	int	i;
+	int	sign;
+	int	re;
+
+	i = 0;
+	sign = 1;
+	re = 0;
 	while (s[i] == ' ' || s[i] == '\t' || s[i] == '\n')
 		i++;
 	if (s[i] == '+' || s[i] == '-')
@@ -32,7 +35,7 @@ int ft_atoi(char *s)
 			sign = -1;
 		i++;
 	}
-	while (s[i] >= '0' && s[i] <= '9') 
+	while (s[i] >= '0' && s[i] <= '9')
 	{
 		re = re * 10 + (s[i] - '0');
 		i++;
@@ -40,9 +43,11 @@ int ft_atoi(char *s)
 	return (re * sign);
 }
 
-void check_pid(pid_t nbr)
+void	check_pid(pid_t nbr)
 {
-	int re = kill(nbr, 0);
+	int	re;
+
+	re = kill(nbr, 0);
 	if (re == -1)
 	{
 		write(1, "INVALID PID\n", 12);
@@ -50,20 +55,24 @@ void check_pid(pid_t nbr)
 	}
 }
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
+	int		nbr;
+	char	*s;
+	int		i;
+
 	if (argc != 3)
 	{
 		write(1, "{-} Not Enough arguement\n", 25);
 		exit(1);
 	}
-	int nbr = ft_atoi(argv[1]);
-	char *s = argv[2];
-	int i = 0;
+	nbr = ft_atoi(argv[1]);
+	s = argv[2];
+	i = 0;
 	check_pid(nbr);
 	while (s[i])
 	{
-		pc(s[i], nbr); // process character
+		pc(s[i], nbr);
 		i++;
 	}
 	return (0);
