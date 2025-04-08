@@ -39,6 +39,8 @@ void	sig_super_func(int n, siginfo_t *more, void *pure)
 	// one other variable to store the value so far for the character
 	static int i_bits = 0;
 	static char c = 0;
+	(void)pure;
+	(void)more;
 	if (n == SIGUSR2)
 		c |= (1 << (i_bits));
 	i_bits++;
@@ -50,7 +52,7 @@ void	sig_super_func(int n, siginfo_t *more, void *pure)
 	}
 }
 
-int main(int argc, char **argv)
+int main(void)
 {
 	int nbr = getpid();
 	ft_putnbr(nbr);
