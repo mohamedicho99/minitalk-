@@ -22,6 +22,9 @@ $(S_NAME): $(OBJ_S)
 clean:
 	rm -rf $(OBJ_S) $(OBJ_C) $(C_NAME) $(S_NAME)
 
+fclean: clean
+	rm -rf $(OBJ_S) $(OBJ_C) $(C_NAME) $(S_NAME)
+
 re: clean all
 
 .PHONY: clean

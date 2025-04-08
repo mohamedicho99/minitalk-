@@ -33,14 +33,21 @@ void	ft_putnbr(int nbr)
 	}
 }
 
-void	sig_super_func(int n, siginfo_t *more, void *pure)
+void	sig_super_func(int n, siginfo_t *info, void *pure)
 {
 	// static var to keep track of how many bit written so far!
 	// one other variable to store the value so far for the character
 	static int i_bits = 0;
 	static char c = 0;
+	static pid_t current = 0;
+	if (info->si_pid != current)
+	{
+		i_bits = 0;
+		c = 0;
+		current = info->si_pid;
+	}
 	(void)pure;
-	(void)more;
+	//(void)info;
 	if (n == SIGUSR2)
 		c |= (1 << (i_bits));
 	i_bits++;
