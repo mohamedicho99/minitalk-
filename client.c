@@ -14,7 +14,7 @@ void	pc(char c, pid_t nbr)
 			kill(nbr, SIGUSR2);
 		else
 			kill(nbr, SIGUSR1);
-		usleep(100);
+		usleep(500);
 		i++;
 	}
 }
@@ -39,10 +39,6 @@ int ft_atoi(char *s)
 	}
 	return (re * sign);
 }
-
-
-// write a function that takes either sigusr1 or sigusr2 
-// and print either 0 or 1 based on which signal you received!
 
 void check_pid(pid_t nbr)
 {
