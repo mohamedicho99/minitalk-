@@ -1,22 +1,16 @@
-// what function should we use to cancel all other singal but the ones we want to use!
-// use atoi for handling the pid
-// if pid is invalid; handle that
-
-#include <stdio.h>
 #include <unistd.h>
 #include <signal.h>
 
-
-void ft_putchar(char c)
+void	ft_putchar(char c)
 {
 	write(1, &c, 1);
 }
 
-
 void	ft_putnbr(int nbr)
 {
-	long n = nbr;
+	long	n;
 
+	n = nbr;
 	if (n < 0)
 	{
 		write(1, "-", 1);
@@ -35,11 +29,10 @@ void	ft_putnbr(int nbr)
 
 void	sig_super_func(int n, siginfo_t *info, void *pure)
 {
-	// static var to keep track of how many bit written so far!
-	// one other variable to store the value so far for the character
-	static int i_bits = 0;
-	static char c = 0;
-	static pid_t current = 0;
+	static int		i_bits;
+	static char		c;
+	static pid_t	current;
+
 	if (info->si_pid != current)
 	{
 		i_bits = 0;
@@ -47,7 +40,6 @@ void	sig_super_func(int n, siginfo_t *info, void *pure)
 		current = info->si_pid;
 	}
 	(void)pure;
-	//(void)info;
 	if (n == SIGUSR2)
 		c |= (1 << (i_bits));
 	i_bits++;
@@ -59,12 +51,14 @@ void	sig_super_func(int n, siginfo_t *info, void *pure)
 	}
 }
 
-int main(void)
+int	main(void)
 {
-	int nbr = getpid();
+	struct sigaction	sa;
+	int					nbr;
+
+	nbr = getpid();
 	ft_putnbr(nbr);
 	ft_putchar('\n');
-	struct sigaction sa;
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = SA_SIGINFO;
 	sa.sa_sigaction = sig_super_func;
