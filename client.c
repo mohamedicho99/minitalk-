@@ -1,32 +1,32 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <signal.h>
+#include <stdio.h>
+
+int g;
 
 void	pc(char c, pid_t nbr)
 {
-	int	i;
+	int i;
 
 	i = 0;
+	g = 0;
 	while (i < 8)
 	{
 		if (((c >> i) & 1) == 1)
 			kill(nbr, SIGUSR2);
 		else
 			kill(nbr, SIGUSR1);
-		usleep(500);
 		i++;
+		while (!g);
 	}
 }
 
-int	ft_atoi(char *s)
+int ft_atoi(char *s)
 {
-	int	i;
-	int	sign;
-	int	re;
-
-	i = 0;
-	sign = 1;
-	re = 0;
+	int i = 0;
+	int sign = 1;
+	int re = 0;
 	while (s[i] == ' ' || s[i] == '\t' || s[i] == '\n')
 		i++;
 	if (s[i] == '+' || s[i] == '-')
@@ -35,7 +35,7 @@ int	ft_atoi(char *s)
 			sign = -1;
 		i++;
 	}
-	while (s[i] >= '0' && s[i] <= '9')
+	while (s[i] >= '0' && s[i] <= '9') 
 	{
 		re = re * 10 + (s[i] - '0');
 		i++;
@@ -43,11 +43,13 @@ int	ft_atoi(char *s)
 	return (re * sign);
 }
 
-void	check_pid(pid_t nbr)
-{
-	int	re;
 
-	re = kill(nbr, 0);
+// write a function that takes either sigusr1 or sigusr2 
+// and print either 0 or 1 based on which signal you received!
+
+void check_pid(pid_t nbr)
+{
+	int re = kill(nbr, 0);
 	if (re == -1)
 	{
 		write(1, "INVALID PID\n", 12);
@@ -55,11 +57,18 @@ void	check_pid(pid_t nbr)
 	}
 }
 
-int	main(int argc, char **argv)
+void	handle(int signum)
 {
-	int		nbr;
-	char	*s;
-	int		i;
+	(void)signum;
+	g = 1;
+}
+
+int main(int argc, char **argv)
+{
+	struct sigaction sa;
+	int nbr;
+	int i;
+	char *s;
 
 	if (argc != 3)
 	{
@@ -70,9 +79,14 @@ int	main(int argc, char **argv)
 	s = argv[2];
 	i = 0;
 	check_pid(nbr);
+	sa.sa_handler = handle;
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = 0;
+	sigaction(SIGUSR1, &sa, NULL);
+	// signal(SIGUSR1, handle);
 	while (s[i])
 	{
-		pc(s[i], nbr);
+		pc(s[i], nbr); // process character
 		i++;
 	}
 	return (0);
